@@ -1,8 +1,10 @@
 import React from 'react';
+// import DeleteButton from '../deleteButton/deleteButton';
 import './branch.css';
 
 const Branch = () => (
     <div>
+        <button type="button" className="btn btn-danger deleteBranch"> X </button>
         <button type='button' className='btn btn-secondary branchBtn' data-toggle='modal' data-target='#editingModal'> Branch </button>
     </div>
 );

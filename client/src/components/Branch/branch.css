@@ -1,4 +1,10 @@
 /* the branch element */
-.branchbtn {
+.branchBtn {
+    margin-top: 10px;
+}
 
+.deleteBranch {
+    margin-top: 10px;
+    margin-right: 5px;
+    border: none;
 }

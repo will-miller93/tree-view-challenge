@@ -7,7 +7,7 @@ import Row from './components/Grid/row';
 import Col from './components/Grid/col';
 import Jumbotron from './components/Jumbotron/jumbotron';
 import Leaf from './components/Leaf/leaf';
-
+import './App.css';
 
 // import io from 'socket.io-client';
 // let socket = io(`http://localhost:3001`);
@@ -38,7 +38,7 @@ class App extends Component {
         <AddBar />
         <Container>
           <Row>
-            <Col size="md-3">
+            <Col size="md-6">
               <Branch />
             </Col>
           </Row>
