@@ -31,12 +31,18 @@ if (process.env.NODE_ENV === "production") {
 
 // set up the Socket.io connection
 io.on('connection', (client) => {
-    // this is where you will emit all of your events to the client.
-    // the disconnect socket.on should come after everything except the closure.
+    // this is where all of the 'event handlers' for socket go.
+    
+    // the event emitters will be in the React Component App.js
+
     // socket code that goes here...
         // on create, update and delete branches
         // on create leaves
-    // on disconnect
+
+    // socket.on disconnect event handler
+    socket.on('disconnect', function(){
+        console.log('User has disconnected...');
+    });
 });
 
 // set up the Socket.io Listener

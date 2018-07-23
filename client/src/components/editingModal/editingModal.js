@@ -3,7 +3,7 @@ import EditButton from '../editButton/editButton';
 import SaveButton from '../saveButton/saveButton';
 import './editingModal.css';
 
-const EditingModal = () => (
+const EditingModal = (updateBranch, closeModal, props, passedVal) => (
     <div>
         <div className="modal fade" id="editingModal" tableindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -11,20 +11,20 @@ const EditingModal = () => (
                     <div className="modal-header">
                         <h5 className="modal-title" id="editingModalTitle"> Branch Details </h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span onClick={this.closeModal} aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
                         {/* here is where the Name of the branch will be displayed or where it can be edited */}
                         <div className="row">
-                            <label for="branchName"> Branch Name : </label>
+                            <label htmlFor="branchName"> Branch Name : </label>
                             <div className="col">
                                 <input type="text" className="form-control" id="branchName" placeholder="Enter branch name here" />
                             </div>
                         </div>
                         {/* here is where the number of children is decided */}
                         <div className="row">
-                            <label for="numChildren"> Children : </label>
+                            <label htmlFor="numChildren"> Children : </label>
                             <div className="col">
                                 <input type="text" className="form-control" id="branchChildren" placeholder="You can have up to 15 Children" />
                             </div>
@@ -32,7 +32,7 @@ const EditingModal = () => (
                         {/* here is where the Range min and max is decided */}
                         <form>
                             <div className="row">
-                                <label for="range"> Range : </label>
+                                <label htmlFor="range"> Range : </label>
                                 <div className="col">
                                     <input type="text" className="form-control" id="minRange" placeholder="Min Range" />
                                 </div>
@@ -44,7 +44,7 @@ const EditingModal = () => (
                     </div>
                     <div className="modal-footer">
                         <EditButton />
-                        <SaveButton />
+                        <SaveButton closeModal={this.closeModal} updateBranch={this.updateBranch}/>
                     </div> 
                 </div>
             </div>

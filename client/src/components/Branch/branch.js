@@ -1,15 +1,26 @@
 import React from 'react';
+import Row from '../Grid/row';
+import Col from '../Grid/col';
+
 // import DeleteButton from '../deleteButton/deleteButton';
 import './branch.css';
 
-const Branch = () => (
-    <div>
-        <button type="button" className="btn btn-danger deleteBranch"> X </button>
-        <button type='button' className='btn btn-secondary branchBtn' data-toggle='modal' data-target='#editingModal'> Branch </button>
-    </div>
+const Branch = (deleteBranch, openModal) => (
+    <Row>
+        <Col size="md-6">
+            <div>
+                <button onClick={() => this.deleteBranch} type="button" className="btn btn-danger deleteBranch"> X </button>
+                <button onClick={() => this.openModal} type='button' className='btn btn-secondary branchBtn' data-toggle='modal' data-target='#editingModal' onClick={props.openModal}> Branch Name </button>
+            </div>
+        </Col>
+        {/* leaf generation goes here */}
+    </Row>
 );
 
 export default Branch;
 
 // this is the button that will be the element representing the Branch. 
 // this will be clickable and will open the editing modal.
+
+
+
