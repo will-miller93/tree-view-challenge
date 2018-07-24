@@ -19,30 +19,4 @@ const Leaf = () => (
 
 export default Leaf;
 
-{/* <Row>
-<Col size="md-6">
-  <Branch>
-    <Row>
-      <Col size="md-3">
-        <ul> 
-          <li>
-            <Leaf />
-          </li>
-          <li>
-            <Leaf />
-          </li>
-          <li>
-            <Leaf />
-          </li>
-          <li>
-            <Leaf />
-          </li>
-          <li>
-            <Leaf />
-          </li>
-        </ul>
-      </Col>
-    </Row>
-  </Branch>
-</Col>
-</Row> */}
+

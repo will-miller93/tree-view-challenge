@@ -3,7 +3,7 @@ import './saveButton.css';
 
 const SaveButton = (updateBranch, closeModal) => (
     <div>
-        <button onClick={() => this.closeModal} type="button" className="btn btn-primary saveBtn"> Save Branch </button>
+        <button id="saveAndClose" type="button" className="btn btn-primary saveBtn"> Save Branch </button>
     </div>
 );
 

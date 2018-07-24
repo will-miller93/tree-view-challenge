@@ -1,5 +1,13 @@
-// This is the Object relational mapping
 // require the connection.js file here.
+const connection = require('./connection');
+
+
+
+
+
+
+
+
 
 // the ORM will have all of the intial crud functionality as well as the functionality
 // for converting the data inserted in the app to an object then converting it into

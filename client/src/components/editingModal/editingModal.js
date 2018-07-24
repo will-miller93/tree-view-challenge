@@ -10,7 +10,7 @@ const EditingModal = (updateBranch, closeModal, props, passedVal) => (
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="editingModalTitle"> Branch Details </h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" id="closeModal" className="close" data-dismiss="modal" aria-label="Close">
                             <span onClick={this.closeModal} aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -44,7 +44,7 @@ const EditingModal = (updateBranch, closeModal, props, passedVal) => (
                     </div>
                     <div className="modal-footer">
                         <EditButton />
-                        <SaveButton closeModal={this.closeModal} updateBranch={this.updateBranch}/>
+                        <SaveButton  updateBranch={this.updateBranch}/>
                     </div> 
                 </div>
             </div>
