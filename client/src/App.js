@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AddBar from './components/addBar/addBar';
-import Branch from './components/Branch/branch';
+// import Branch from './components/Branch/branch';
 import Container from './components/Grid/container';
 // import Row from './components/Grid/row';
 // import Col from './components/Grid/col';
@@ -11,15 +11,13 @@ import List from './components/list/list.js';
 import ListItem from './components/listItem/listItem';
 import './App.css';
 
-import io from 'socket.io-client';
-let socket = io(`http://localhost:3001`);
+import socketIOClient from 'socket.io-client';
 
 class App extends Component {
   // manage state of data here
   constructor(props) {
     super(props);
     this.state = {
-      modalHidden: "false",
       branches: ["test", "test2"],
       leaves: ["1", "2", "3", "4"],
       name: "",
@@ -27,77 +25,127 @@ class App extends Component {
       leaf_id: ""
     };
   }
+
+  // Emit Event Listeners //
+  //======================//
   
   componentDidMount() {
-    // inside this lifecycle event is where all of the socket emitters will go
-    this.getBranches();
+    // Socket.io connection for recieving emit events go here.
+    const socket = socketIOClient('http://localhost:3001');
 
+    // maybe call the getBranches() helper function for when page loads.???
+
+    // .on methods for recieving emitters from server.
+    socket.on('create branch', () => {
+      console.log('create branch emitted recieved from server');
+      // this create branch emit listener should have the create branch helper function executed here
+      createBranch();
+    });
+
+    socket.on('update branch', () => {
+      console.log('update branch emitter recieved from server');
+      // this update branch emit listener should have the update branch helper function executed here
+      updateBranch();
+    });
+
+    socket.on('delete branch', () => {
+      console.log('delete branch emitter recieved from server');
+      // this delete branch emit listener should have the delete branch helper function executed here
+      deleteBranch();
+    });
+
+    socket.on('get branches', () => {
+      console.log('get branches emitter recieved from server');
+      // this get branches emit listener should have the get branches helper function executed here
+      getBranches();
+    });
+    
+  };
+
+  // Emit Event Functions //
+  //======================//
+
+  sendCreateBranch = () => {
+    // will be passed to submit button through props
+    // create socket variable and connect to the server port
+    const socket = socketIOClient('http://localhost:3001');
+
+    // need to create a branch. (dynamically insert into the dom.)
+    // emitter method for the Create Branch event.
+    socket.emit('create branch', () => {
+      console.log('branch create emitted from client');
+
+    });
+
+  };
+
+  sendUpdateBranch = () => {
+    // will be passed to save button through props
+    const socket = socketIOClient('http://localhost:3001');
+
+    // emitter method for update branch event.
+    socket.emit('update branch', () => {
+      console.log('update branch emitted from client');
+
+    });
+
+  };
+
+  sendDeleteBranch = () => {
+    // will be passed to delete button through props
+    const socket = socketIOClient('http://localhost:3001');
+
+    // emitter method for delete branch event. 
+    socket.emit('delete branch', () => {
+      console.log('delete branch emitted from client');
+
+    });
+
+  };
+
+  sendGetBranches = () => {
+    // this will happen on page load and maybe everytime that a branch is updated etc.
+    const socket = socketIOClient('http://localhost:3001');
+
+    // emitter method for getbranches event
+    socket.emit('get branches', () => {
+      console.log('get branches emitted from client');
+      
+    });
+
+  };
+
+  // Helper Functions //
+  //==================//
+  // these functions should have the functionality to gather data and then send data.
+  // they should send the data to the server and the server will create/update/delete in the DB
+
+  getBranches = () => {
+    // needs branch_name, id, children, min_range, max_range
   };
 
   createBranch = () => {
-    // will be passed to submit button through props
-    
-
+    // needs branch_name, id
   };
 
   updateBranch = () => {
-    // will be passed to save button through props
-
-
+    // needs branch_name, id, children, min_range, max_range
   };
-
 
   deleteBranch = () => {
-    // will be passed to delete button through props
-
-
+    // needs id
   };
-
-
-  getBranches = () => {
-    // this will happen on page load and maybe everytime that a branch is updated etc.
-
-
-  };
-
-  // for the open and close modal functions you will need to pass the values down through state to the editing modal.
-  // done by passing passedVal={this.state.val} into <EditingModal/> then in the editing modal component
-  // you will need to pass {this.props.passedVal}
-  openModal = () => {
-
-  }
-
-  closeModal = () => {
-
-  }
-
-  handleInputChange = (event) => {
-
-  } 
   
   
-
   render() {
     return (
 
       <div className="app">
-        <EditingModal passedVal={this.state.modalHidden}/>
+        <EditingModal />
         <Jumbotron />
-        <AddBar createBranch={this.createBranch} handleInputChange={this.handleInputChange}/>
+        <AddBar />
         <Container>
-          {this.state.branches.length ? (
-              <List>
-                {this.state.branches.map(branch => (
-                  <ListItem key={this.state.branch_id}>
-                    <Branch>
-                    {/* you need to add leaf conditional rendering */}
-                    </Branch>
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Branches have been created. try making one.</h3>
-            )}
+
         </Container>
       </div>
     );
@@ -105,3 +153,18 @@ class App extends Component {
 }
 
 export default App;
+
+
+// {this.state.branches.length ? (
+//   <List>
+//     {this.state.branches.map(branch => (
+//       <ListItem key={this.state.branch_id}>
+//         <Branch>
+//         {/* you need to add leaf conditional rendering */}
+//         </Branch>
+//       </ListItem>
+//     ))}
+//   </List>
+// ) : (
+//   <h3>No Branches have been created. try making one.</h3>
+// )}

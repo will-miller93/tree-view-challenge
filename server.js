@@ -9,7 +9,7 @@ const io = require('socket.io')(); // this is the inital socket.io set up
 
 // model file requirements
 const branch = require('./models/branch');
-const root = require('./models/root');
+const leaf = require('./models/leaf');
 
 // other constants needed
 const PORT = process.env.PORT || 3001
@@ -30,45 +30,43 @@ if (process.env.NODE_ENV === "production") {
 // if there was a static HTML page but with React it may be different
 
 // set up the Socket.io connection
-io.on('connection', (client) => {
+io.on('connection', (socket) => {
+    console.log('New user has connected..');
     // this is where all of the 'event handlers' for socket go.
-    client.on('getBranches', function() {
+    // all of these .on methods should include the functionality code for creating/updating/deleting in the DB
+    // use the Models here in each one to be able to access the database.
+    socket.on('get branches', (cb) => {
         console.log("branches got");
-        // select all from branch model
-        // select from leaf data
-        // you will emit back to all clients the branches.
+        io.sockets.emit('get branches', (cb));
     });
-    client.on('createBranches', function() {
+
+    socket.on('create branch', (cb) => {
         console.log("branch created");
-        
-        // you will emit the newly created branch back to client
+        io.sockets.emit('create branch', (cb));       
     });
-    client.on('updateBranch', function() {
+
+    socket.on('update branch', (cb) => {
         console.log("branch updated");
         // you will emit changes to the branch back to the client
+        io.sockets.emit('update branch', (cb));
     });
-    client.on('deleteBranch', function() {
+
+    socket.on('delete branch', (cb) => {
         console.log("branch deleted");
         // you will emit the deletion of a branch to all clients
-    });
-    client.on('createLeaves', function() {
-        console.log("leaves created");
-        // you will emit the creation of leaves to all clients
-        // client.emit('EventName', function() {
-
-        // })  
+        io.sockets.emit('delete branch', (cb));
     });
 
     // socket.on disconnect event handler
-    socket.on('disconnect', function(){
-        console.log('User has disconnected...');
+    socket.on('disconnect', () => {
+        console.log('User has disconnected..');
     });
 });
 
 // set up the Socket.io Listener
-const port = 8000;
-io.listen(port);
-console.log('Socket listening on port ' + port);
+// const port = 8000;
+// io.listen(port);
+// console.log('Socket listening on port ' + port);
 
 // set up app listener
 app.listen(PORT, () => {

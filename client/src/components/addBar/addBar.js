@@ -2,10 +2,10 @@ import React from 'react';
 import SubmitButton from '../submitButton/submitButton';
 import './addBar.css';
 
-const AddBar = (createBranch, handleInputChange) => (
+const AddBar = () => (
     <div>
         <nav className="navbar bg-dark">
-            <SubmitButton createBranch={this.createBranch} handleInputChange={this.handleInputChange}/>
+            <SubmitButton />
         </nav>
     </div>
 );

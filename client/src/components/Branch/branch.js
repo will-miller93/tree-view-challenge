@@ -9,7 +9,7 @@ const Branch = (deleteBranch, openModal, props) => (
     <Row>
         <Col size="md-6">
             <div>
-                <button onClick={() => this.deleteBranch} type="button" className="btn btn-danger deleteBranch"> X </button>
+                <button id="deleteBranchBtn"  type="button" className="btn btn-danger deleteBranch"> X </button>
                 <button id="modalOpen" type='button' className='btn btn-secondary branchBtn' data-toggle='modal' data-target='#editingModal'> Branch Name </button>
             </div>
         </Col>

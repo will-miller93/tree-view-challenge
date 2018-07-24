@@ -1,7 +1,7 @@
 import React from 'react';
 import './saveButton.css';
 
-const SaveButton = (updateBranch, closeModal) => (
+const SaveButton = () => (
     <div>
         <button id="saveAndClose" type="button" className="btn btn-primary saveBtn"> Save Branch </button>
     </div>

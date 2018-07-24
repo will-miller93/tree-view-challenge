@@ -3,7 +3,7 @@ import EditButton from '../editButton/editButton';
 import SaveButton from '../saveButton/saveButton';
 import './editingModal.css';
 
-const EditingModal = (updateBranch, closeModal, props, passedVal) => (
+const EditingModal = () => (
     <div>
         <div className="modal fade" id="editingModal" tableindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -11,7 +11,7 @@ const EditingModal = (updateBranch, closeModal, props, passedVal) => (
                     <div className="modal-header">
                         <h5 className="modal-title" id="editingModalTitle"> Branch Details </h5>
                         <button type="button" id="closeModal" className="close" data-dismiss="modal" aria-label="Close">
-                            <span onClick={this.closeModal} aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
@@ -44,7 +44,7 @@ const EditingModal = (updateBranch, closeModal, props, passedVal) => (
                     </div>
                     <div className="modal-footer">
                         <EditButton />
-                        <SaveButton  updateBranch={this.updateBranch}/>
+                        <SaveButton />
                     </div> 
                 </div>
             </div>
