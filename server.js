@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const io = require('socket.io')(); // this is the inital socket.io set up
 
 // model file requirements
-const branch = require('./models/branch');
-const leaf = require('./models/leaf');
+const Branch = require('./models/branch');
+const Leaf = require('./models/leaf');
 
 // other constants needed
 const PORT = process.env.PORT || 3001
@@ -37,11 +37,14 @@ io.on('connection', (socket) => {
     // use the Models here in each one to be able to access the database.
     socket.on('get branches', (cb) => {
         console.log("branches got");
+        
+        // you will emit the branches to all clients
         io.sockets.emit('get branches', (cb));
     });
 
     socket.on('create branch', (cb) => {
         console.log("branch created");
+        // you will emit the created branch back to all clients
         io.sockets.emit('create branch', (cb));       
     });
 

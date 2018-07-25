@@ -14,6 +14,6 @@ CREATE TABLE branches (
 
 CREATE TABLE leaves (
     branch_id int NOT NULL,
-    rng INT
+    rand_num INT
 );
 
