@@ -32,32 +32,40 @@ if (process.env.NODE_ENV === "production") {
 // set up the Socket.io connection
 io.on('connection', (socket) => {
     console.log('New user has connected..');
-    // this is where all of the 'event handlers' for socket go.
-    // all of these .on methods should include the functionality code for creating/updating/deleting in the DB
-    // use the Models here in each one to be able to access the database.
+
     socket.on('get branches', (cb) => {
         console.log("branches got");
-        
+        // use models here to access database. you will manipulate database in here
+
         // you will emit the branches to all clients
         io.sockets.emit('get branches', (cb));
     });
 
-    socket.on('create branch', (cb) => {
+    socket.on('create branch', (newBranchName) => {
         console.log("branch created");
+        // use models here to access database. you will manipulate database in here
+        Branch.create(['branch_name'], newBranchName, function(results){
+            console.log('New Branch added to database');
+        })
         // you will emit the created branch back to all clients
-        io.sockets.emit('create branch', (cb));       
+        io.sockets.emit('create branch', (newBranchName));       
     });
 
-    socket.on('update branch', (cb) => {
+    socket.on('update branch', (newBranchName, branch_id, newChildren, newMinRange, newMaxRange) => {
         console.log("branch updated");
+        // use models here to access database. you will manipulate database in here
+        
+
         // you will emit changes to the branch back to the client
-        io.sockets.emit('update branch', (cb));
+        io.sockets.emit('update branch', (newBranchName, branch_id, newChildren, newMinRange, newMaxRange));
     });
 
-    socket.on('delete branch', (cb) => {
+    socket.on('delete branch', (branch_id) => {
         console.log("branch deleted");
+        // use models here to access database. you will manipulate database in here
+
         // you will emit the deletion of a branch to all clients
-        io.sockets.emit('delete branch', (cb));
+        io.sockets.emit('delete branch', (branch_id));
     });
 
     // socket.on disconnect event handler

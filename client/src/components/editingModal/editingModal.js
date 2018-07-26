@@ -3,7 +3,7 @@ import EditButton from '../editButton/editButton';
 import SaveButton from '../saveButton/saveButton';
 import './editingModal.css';
 
-const EditingModal = () => (
+const EditingModal = (props) => (
     <div>
         <div className="modal fade" id="editingModal" tableindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -19,14 +19,14 @@ const EditingModal = () => (
                         <div className="row">
                             <label htmlFor="branchName"> Branch Name : </label>
                             <div className="col">
-                                <input type="text" className="form-control" id="branchName" placeholder="Enter branch name here" />
+                                <input type="text" onChange={props.handleModalChange} name="branch_name" className="form-control" id="branchName" placeholder="Enter branch name here" disabled={props.disabledValue}/>
                             </div>
                         </div>
                         {/* here is where the number of children is decided */}
                         <div className="row">
                             <label htmlFor="numChildren"> Children : </label>
                             <div className="col">
-                                <input type="text" className="form-control" id="branchChildren" placeholder="You can have up to 15 Children" />
+                                <input type="text" onChange={props.handleModalChange} name="children" className="form-control" id="branchChildren" placeholder="You can have up to 15 Children" disabled={props.disabledValue}/>
                             </div>
                         </div>
                         {/* here is where the Range min and max is decided */}
@@ -34,17 +34,17 @@ const EditingModal = () => (
                             <div className="row">
                                 <label htmlFor="range"> Range : </label>
                                 <div className="col">
-                                    <input type="text" className="form-control" id="minRange" placeholder="Min Range" />
+                                    <input type="text" onChange={props.handleModalChange} name="min_range" className="form-control" id="minRange" placeholder="Min Range" disabled={props.disabledValue}/>
                                 </div>
                                 <div className="col">
-                                    <input type="text" className="form-control" id="maxRange" placeholder="Max Range" />
+                                    <input type="text" onChange={props.handleModalChange} name="max_range" className="form-control" id="maxRange" placeholder="Max Range" disabled={props.disabledValue}/>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <EditButton />
-                        <SaveButton />
+                        <EditButton toggleInput={props.toggleInput}/>
+                        <SaveButton toggleInput={props.toggleInput}/>
                     </div> 
                 </div>
             </div>

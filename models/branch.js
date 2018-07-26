@@ -4,19 +4,19 @@ const orm = require('../config/orm');
 // this model should create, update, and delete branches from the 'root'
 
 const Branch = {
-    create: function(callback) {
+    create: function(cols, vals, callback) {
         orm.createBranch('branches', cols, vals, function(err, res){
             if (err) throw err;
             callback(res);
         });
     },
-    delete: function(callback) {
+    delete: function(cols, callback) {
         orm.deleteBranch('branches', cols, function(err, res){
             if (err) throw err;
             callback(res);
         });
     },
-    update: function(callback) {
+    update: function(colVals, condition, callback) {
         orm.updateBranch('branches', colVals, condition, function(err, res){
             if (err) throw err;
             callback(res);

@@ -1,12 +1,12 @@
 import React from 'react';
 import './submitButton.css';
 
-const SubmitButton = () => (
+const SubmitButton = (props) => (
     <div>
         <div className="input-group addBranch">
-            <input type="text" className="form-control" placeholder="Type Branch Name Here" aria-label="Recipient's username" aria-describedby="button-addon2" />
+            <input onChange={props.newBranchName} name="branch_name" type="text" className="form-control" placeholder="Type Branch Name Here" aria-label="Recipient's username" aria-describedby="button-addon2" />
             <div className="input-group-append">
-                <button className="btn btn-outline-secondary addBranchBtn" type="button" id="button-addon2">Button</button>
+                <button onClick={props.createBranch} className="btn btn-outline-secondary addBranchBtn" type="button" id="button-addon2">Button</button>
             </div>
         </div>
     </div>

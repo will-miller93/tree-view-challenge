@@ -1,9 +1,9 @@
 import React from 'react';
 import './editButton.css';
 
-const EditButton = () => (
+const EditButton = (props) => (
     <div>
-        <button type="button" className="btn btn-warning editButton"> Edit </button>  
+        <button onClick={props.toggleInput} type="button" className="btn btn-warning editButton"> Edit </button>  
     </div>
 );
 

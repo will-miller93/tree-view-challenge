@@ -5,12 +5,12 @@ import Col from '../Grid/col';
 // import DeleteButton from '../deleteButton/deleteButton';
 import './branch.css';
 
-const Branch = (deleteBranch, openModal, props) => (
+const Branch = (props) => (
     <Row>
         <Col size="md-6">
             <div>
                 <button id="deleteBranchBtn"  type="button" className="btn btn-danger deleteBranch"> X </button>
-                <button id="modalOpen" type='button' className='btn btn-secondary branchBtn' data-toggle='modal' data-target='#editingModal'> Branch Name </button>
+                <button id="modalOpen" type='button' className='btn btn-secondary branchBtn' data-toggle='modal' data-target='#editingModal' name={props.branchName} children="" min_range="" max_range=""> {props.branchName} </button>
             </div>
         </Col>
         {/* leaf generation goes here */}
