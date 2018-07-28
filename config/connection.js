@@ -11,7 +11,7 @@ if (process.env.JAWSDB_URL) {
     connection = mySql.createConnection({
         // personal credentials for mysql here
         host: "localhost",
-        port: 3001,
+        port: 3306,
         user: "root",
         password: "",
         database: "tree_viewDB"
@@ -22,6 +22,10 @@ if (process.env.JAWSDB_URL) {
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
+});
+
+connection.on('error', function(err){
+    console.log("[mysql error]", err);
 });
 
 module.exports = connection;

@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS 'tree_view';
-CREATE DATABASE 'tree_view';
+DROP DATABASE IF EXISTS 'tree_viewDB';
+CREATE DATABASE 'tree_viewDB';
 
-USE 'tree_view';
+USE 'tree_viewDB';
 
 CREATE TABLE branches (
     branch_id INT NOT NULL AUTO_INCREMENT,
@@ -9,11 +9,14 @@ CREATE TABLE branches (
     min_range INT,
     max_range INT,
     children INT,
-    PRIMARY_KEY (branch_id)
+    PRIMARY KEY (branch_id)
 );
 
 CREATE TABLE leaves (
-    branch_id int NOT NULL,
-    rand_num INT
+    leaf_id int NOT NULL,
+    `name` INT,
+    branch_id INT,
+    PRIMARY KEY (leaf_id),
+    FOREIGN KEY (branch_id) REFERENCES branches (branch_id)
 );
 

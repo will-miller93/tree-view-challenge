@@ -37,12 +37,11 @@ const orm = {
         var queryString = `SELECT * FROM ${table};`;
         connection.query(queryString, function(err, res){
             if (err) {
-                console.log('err in getting all branches.');
-                throw err;
-            } else {
-                console.log(res);
-                callback(res);
+                console.log('err in getting all branches. in orm.js');
+                
             };
+            // console.log(res);
+            callback(res);
         });
     },
     createBranch: function(table, cols, vals, callback) {
@@ -59,7 +58,7 @@ const orm = {
     },
     updateBranch: function(table, colVals, condition, callback) {
         // may need to include a value for condition for branch_id = value
-        var queryString = `UPDATE ${table} SET ${formatObj(colVals)} WHERE ${condition} = ?;`;
+        var queryString = `UPDATE ${table} SET ${formatObj(colVals)} WHERE ${condition};`;
         connection.query(queryString, function(err, res) {
             if (err) {
                 console.log('err in updating branch');
@@ -72,8 +71,8 @@ const orm = {
 
     },
     // delete by branch_id
-    deleteBranch: function(table, cols, callback) {
-        var queryString = `DELETE FROM ${table} WHERE ${cols.toString()} = ? ;`;
+    deleteBranch: function(table, cols, vals, callback) {
+        var queryString = `DELETE FROM ${table} WHERE ${cols.toString()} = ${vals} ;`;
         connection.query(queryString, function(err, res) {
             if (err) {
                 console.log('err in deleting branch');
@@ -111,7 +110,7 @@ const orm = {
     }
 };
 
-export default orm;
+module.exports = orm;
 
 
 

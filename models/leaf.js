@@ -6,23 +6,20 @@ const orm = require('../config/orm');
 
 const Leaf = {
     create: function(callback){
-        orm.createLeaves('leaves', cols, vals, function(err, res){
-            if (err) throw err;
+        orm.createLeaves('leaves', cols, vals, function(res){
             callback(res);
         });
     },
     delete: function(callback){
-        orm.deleteLeaves('leaves', cols, vals, function(err, res){
-            if (err) throw err;
+        orm.deleteLeaves('leaves', cols, vals, function(res){
             callback(res);
         });
     },
     selectAll: function(callback){
-        orm.selectAll('leaves', function(err, res){
-            if (err) throw err;
+        orm.selectAll('leaves', function(res){
             callback(res);
         });
     }
 };
 
-export default Leaf;
+module.exports = Leaf;
