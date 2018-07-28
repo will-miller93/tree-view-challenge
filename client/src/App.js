@@ -18,6 +18,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newBranches: [],
+      newLeaves: [],
       branches: [{
         branch_name: '',
         branch_id: '',
@@ -30,26 +32,27 @@ class App extends Component {
       }],
       disabled: true,
     };
+  
   }
-
+  
   // Emit Event Listeners //
   //======================//
 
   componentDidMount() {
     // Socket.io connection for recieving emit events go here.
     const socket = socketIOClient('http://localhost:3306');
-
-    // the only emitter you will need is getAllBranches. 
-    // getAllBranches will be emitted in server every time it manipulates the database.
-    // thats why this has to go into componentDidMount. so that the client will always be listening
-    // for getAllBranches.
-
-    socket.on('getAllBranches', function(results) {
-      // i think results right here will give branch and leaf data.
+    // getAllBranches emit listener
+    socket.on('getAllBranches', (results) => {
+      // results returns both the branchData and the leafData
       console.log('getAllBranches was emitted and recieved!');
-      // console.log(results);
-      // console.log(results.branchData[0]);
-      // console.log(results.leafData);
+      console.log(results);
+      this.setState({
+        newBranches: results.branchData,
+        newLeaves: results.leafData
+      });
+      
+      
+
     });
     // emit getAllBranches to get them on page load.
     socket.emit('getAllBranches');
@@ -62,7 +65,8 @@ class App extends Component {
     const socket = socketIOClient('http://localhost:3306');
     // declare variables for data that you are sending.
     var newBranchName = this.state.branch_name;
-
+    console.log('create branch function called.');
+    console.log(newBranchName);
     // now emit the information to create a branch.
     socket.emit('createBranch', (newBranchName));
 
@@ -107,6 +111,7 @@ class App extends Component {
   // Helper Functions //
   //==================//
 
+
   // state reset helper function
   resetToInitialState = () => {
     this.setState({
@@ -148,9 +153,10 @@ class App extends Component {
       [name] : value
     });
     console.log(this.state.branch_name);
-    console.log(this.state.children);
-    console.log(this.state.min_range);
-    console.log(this.state.max_range);
+    // console.log(this.state.branch_id);
+    // console.log(this.state.min_range);
+    // console.log(this.state.max_range);
+    // console.log(this.state.children);
     
   };
 
@@ -170,6 +176,7 @@ class App extends Component {
         <Jumbotron objectTest={this.testingStateObject}/>
         <AddBar createBranch={this.createBranch} newBranchName={this.handleInputChange}/>
         <Container>
+          
 
         </Container>
       </div>

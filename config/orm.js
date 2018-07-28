@@ -38,22 +38,21 @@ const orm = {
         connection.query(queryString, function(err, res){
             if (err) {
                 console.log('err in getting all branches. in orm.js');
-                
+                console.log(err);
             };
             // console.log(res);
             callback(res);
         });
     },
     createBranch: function(table, cols, vals, callback) {
-        var queryString = `INSERT INTO ${table} (${cols}) VALUES ${escapeValues(vals.length)};`;
+        var queryString = `INSERT INTO ${table} (${cols}) VALUES ('${vals}');`;
         connection.query(queryString, vals, function(err, res){
             if (err) {
-                console.log('err in creating branch');
-                throw err;
-            } else {
-                console.log(res);
-                callback(res);
+                console.log('error in creating branch');
+                console.log(err);
             };
+            console.log(res);
+            callback(res);
         });
     },
     updateBranch: function(table, colVals, condition, callback) {

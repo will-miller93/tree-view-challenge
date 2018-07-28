@@ -6,6 +6,7 @@ const orm = require('../config/orm');
 const Branch = {
     create: function(cols, vals, callback) {
         orm.createBranch('branches', cols, vals, function(res){
+            // console.log(res);
             callback(res);
         });
     },

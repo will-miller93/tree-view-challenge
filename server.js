@@ -71,13 +71,14 @@ io.on('connection', (socket) => {
 
     socket.on('createBranch', (newBranchName) => {
         console.log("creating branch");
+        console.log(newBranchName);
         // use models here to access database. you will manipulate database in here
-        Branch.create(['branch_name'], newBranchName, function(results){
+        Branch.create(["name"], [newBranchName], function(results){
             console.log('New Branch added to database');
             Branch.selectAll(function(branchData){
+                console.log('branches retrieved after branch create');
                 Leaf.selectAll(function(leafData){
-                    console.log('it got here');
-                    // console.log(branchData);
+                    console.log('leaves retrieved after branch create');
                     io.sockets.emit('getAllBranches', {branchData, leafData});
                 })
             })
