@@ -12,11 +12,13 @@ const Branch = {
     },
     delete: function(cols, vals, callback) {
         orm.deleteBranch('branches', cols, vals, function(res){
+            console.log(res);
             callback(res);
         });
     },
     update: function(colVals, condition, callback) {
         orm.updateBranch('branches', colVals, condition, function(res){
+            console.log(res);
             callback(res);
         });
     },

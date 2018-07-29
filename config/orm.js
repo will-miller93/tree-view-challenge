@@ -21,11 +21,11 @@ function formatObj(object) {
         //  assigning the value of value variable based on For...In loop
         var value = object[keys];
         if (Object.hasOwnProperty.call(object, keys)) {
-            if (typeof value === "string" && value.indexOf(" ") >= 0) {
+            if (typeof value === "string") {
                 value = "'" + value + "'";
             }
             // pushing key and value into array in format key = value
-            arr.push(key + "=" + value);
+            arr.push(keys + " = " + value);
         }
     }
     // returning the array information after turning back into strings.
@@ -51,7 +51,7 @@ const orm = {
                 console.log('error in creating branch');
                 console.log(err);
             };
-            console.log(res);
+            // console.log(res);
             callback(res);
         });
     },
@@ -61,25 +61,23 @@ const orm = {
         connection.query(queryString, function(err, res) {
             if (err) {
                 console.log('err in updating branch');
-                throw err;
-            } else {
-                console.log(res);
-                callback(res);
+                console.log(err);
             };
+            console.log(res);
+            callback(res);
         });
 
     },
     // delete by branch_id
     deleteBranch: function(table, cols, vals, callback) {
-        var queryString = `DELETE FROM ${table} WHERE ${cols.toString()} = ${vals} ;`;
+        var queryString = `DELETE FROM ${table} WHERE (${cols}) = ('${vals}') ;`;
         connection.query(queryString, function(err, res) {
             if (err) {
                 console.log('err in deleting branch');
-                throw err;
-            } else {
-                console.log(res);
-                callback(res);
+                console.log(err);
             };
+            // console.log(res);
+            callback(res);
         });
     },
     createLeaves: function(table, cols, vals, callback) {
@@ -87,24 +85,22 @@ const orm = {
         connection.query(queryString, vals, function(err, res) {
             if (err) {
                 console.log('err in creating leaves');
-                throw err;
-            } else {
+                console.log(err);
+            };
                 console.log(res);
                 callback(res);
-            };
         });
     },
     // delete by branch_id 
-    deleteLeaves: function(table, cols, callback) {
-        var queryString = `DELETE FROM ${table} WHERE ${cols.toString()} = ?;`;
+    deleteLeaves: function(table, cols, vals, callback) {
+        var queryString = `DELETE FROM ${table} WHERE (${cols}) = ('${vals}');`;
         connection.query(queryString, function(err, res) {
             if (err) {
                 console.log("err in deleting leaves.");
-                throw err;
-            } else {
-                console.log(res);
-                callback(res);
+                console.log(err);
             };
+            console.log(res);
+            callback(res);
         });
     }
 };

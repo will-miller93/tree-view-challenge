@@ -85,14 +85,19 @@ io.on('connection', (socket) => {
         })      
     });
 
-    socket.on('updateBranch', (newBranchName, branch_id, newChildren, newMinRange, newMaxRange) => {
+    socket.on('updateBranch', (newBranchName, newChildren, newMinRange, newMaxRange, branch_id) => {
         console.log("updating branch");
+        console.log('branch_name: ' + newBranchName);
+        console.log('children: ' + newChildren);
+        console.log('min_range: ' + newMinRange);
+        console.log('max_range:' + newMaxRange);
+        console.log('branch_id:' + branch_id);
         // use models here to access database. you will manipulate database in here
-        Branch.update({'branch_name': `'${newBranchName}'`, 'children': `'${newChildren}'`, 'min_range':`'${newMinRange}'`, 'max_range': `'${newMaxRange}'`}, `branch_id = ${branch_id}`, function(results){
+        Branch.update({'name': `${newBranchName}`, 'children': `${newChildren}`, 'min_range': `${newMinRange}`, 'max_range': `${newMaxRange}`}, `branch_id = '${branch_id}'`, function(results){
             console.log('branch updated');
             Branch.selectAll(function(branchData){
                 Leaf.selectAll(function(leafData){
-                    io.sockets.emit('getAllBranches', (branchData, leafData));
+                    io.sockets.emit('getAllBranches', {branchData, leafData});
                 })
             })
         })
@@ -100,32 +105,26 @@ io.on('connection', (socket) => {
 
     socket.on('deleteBranch', (branch_id) => {
         console.log("deleting branch");
-        // use models here to access database. you will manipulate database in here
-        // delete leaves then delete branches
-        Leaf.delete([branch_id], [branch_id], function(results){
+        // delete related leaves first
+        Leaf.delete(["branch_id"], [branch_id], function(results){
             console.log('branch deleted');
-            Branch.delete([branch_id], [branch_id], function(results){
+            Branch.delete(["branch_id"], [branch_id], function(results){
                 Branch.selectAll(function(branchData){
                     Leaf.selectAll(function(leafData){
-                        io.sockets.emit('getAllBranches', (branchData, leafData));
+                        console.log('the branch has been deleted from the database');
+                        io.sockets.emit('getAllBranches', {branchData, leafData});
                     })
                 })
             })
         })
     });
 
+
     // socket.on disconnect event handler
     socket.on('disconnect', () => {
         console.log('User has disconnected..');
     });
 });
-
-
-// set up database listener
-// connection.connect(function(err) {
-//     if (err) throw err;
-//     console.log("connected as id " + connection.threadId + "\n");
-// });
 
 // set up app listener
 // app.listen(PORT, () => {

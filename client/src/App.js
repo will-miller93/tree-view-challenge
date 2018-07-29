@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import AddBar from './components/addBar/addBar';
-// import Branch from './components/Branch/branch';
+import Branch from './components/Branch/branch';
 import Container from './components/Grid/container';
 // import Row from './components/Grid/row';
 // import Col from './components/Grid/col';
 import Jumbotron from './components/Jumbotron/jumbotron';
 import EditingModal from './components/editingModal/editingModal';
 // import Leaf from './components/Leaf/leaf';
-// import List from './components/list/list.js';
-// import ListItem from './components/listItem/listItem';
+import List from './components/list/list.js';
+import ListItem from './components/listItem/listItem';
 import './App.css';
 
 import socketIOClient from 'socket.io-client';
@@ -20,16 +20,11 @@ class App extends Component {
     this.state = {
       newBranches: [],
       newLeaves: [],
-      branches: [{
-        branch_name: '',
-        branch_id: '',
-        min_range: '',
-        max_range: '',
-      }],
-      children: [{
-        leaf_id: '',
-        leaf_name: ''
-      }],
+      branch_name: '',
+      branch_id: '',
+      min_range: '',
+      max_range: '',
+      children: '',
       disabled: true,
     };
   
@@ -50,10 +45,14 @@ class App extends Component {
         newBranches: results.branchData,
         newLeaves: results.leafData
       });
+      // variables for accessing state here.
+      let newBranches = this.state.newBranches;
+      let newLeaves = this.state.newLeaves;
+      console.log(newBranches);
+      console.log(newLeaves);
       
-      
-
     });
+    
     // emit getAllBranches to get them on page load.
     socket.emit('getAllBranches');
   };
@@ -72,26 +71,30 @@ class App extends Component {
 
   };
 
-  updateBranch = () => {
+  updateBranch = (event) => {
     const socket = socketIOClient('http://localhost:3306');
     // declare variables for each bit of data you need to send for update
     var newBranchName = this.state.branch_name;
-    var branch_id = this.state.branch_id;
     var newChildren = this.state.children;
     var newMinRange = this.state.min_range;
     var newMaxRange = this.state.max_range;
+    var branch_id = this.state.branch_id;
+    console.log(newBranchName);
+    console.log(newChildren);
+    console.log(newMinRange);
+    console.log(newMaxRange);
+    console.log(branch_id);
   
 
     // now emit the data to the server.
-    socket.emit('updateBranch', (newBranchName, branch_id, newChildren, newMinRange, newMaxRange));
+    socket.emit('updateBranch', newBranchName, newChildren, newMinRange, newMaxRange, branch_id);
 
   };
 
-  deleteBranch = () => {
+  deleteBranch = (event) => {
     const socket = socketIOClient('http://localhost:3306');
-    // declare variables for all the data you need to send
-    var branch_id = this.state.branch_id;
-
+    // console.log(event.target.getAttribute('id'));
+    var branch_id = event.target.getAttribute('id'); // this needs to grab the id of the deletebutton
     // now emit the data needed to the server. 
     socket.emit('deleteBranch', (branch_id));
 
@@ -104,29 +107,11 @@ class App extends Component {
     var max_range = this.state.max_range;
     var children = this.state.children;
 
-    socket.emit('createLeaves', (branch_id, min_range, max_range, children)); 
+    socket.emit('createLeaves', branch_id, min_range, max_range, children); 
   };
-
 
   // Helper Functions //
   //==================//
-
-
-  // state reset helper function
-  resetToInitialState = () => {
-    this.setState({
-      branches: [{
-        branch_name: '',
-        branch_id: '',
-        min_range: '',
-        max_range: '',
-        children: [{
-          leaf_id: '',
-          leaf_name: ''
-        }]
-      }]
-    });
-  };
 
   // changes disabled property in editing modal inputs.
   toggleModalInput = () => {
@@ -146,38 +131,46 @@ class App extends Component {
     };
   };
 
-  handleInputChange = (event) => {
-    // this is input change for all of the modal inputs.
-    const {name, value} = event.target;
+  getBranchId = (event) => {
     this.setState({
-      [name] : value
+      branch_id: event.target.name
     });
-    console.log(this.state.branch_name);
-    // console.log(this.state.branch_id);
-    // console.log(this.state.min_range);
-    // console.log(this.state.max_range);
-    // console.log(this.state.children);
-    
   };
 
-  fillModalInput = () => {
-
-  }
-
-  renderBranches = () => {
-
-  }
+  handleInputChange = (event) => {
+    // this is input change for all of the modal inputs.
+    // const {name, value} = event.target;
+    this.setState({
+      [event.target.name] : event.target.value
+    });
+    // console.log(this.state.branch_id);
+    console.log(this.state.branch_name);
+    console.log(this.state.children);
+    console.log(this.state.min_range);
+    console.log(this.state.max_range);
+  };
 
   render() {
     return (
 
       <div className="app">
-        <EditingModal handleModalChange={this.handleInputChange} toggleInput={this.toggleModalInput} disabledValue={this.state.disabled} />
+        <EditingModal  updateBranch={this.updateBranch} inputChange={this.handleInputChange} toggleInput={this.toggleModalInput} disabledValue={this.state.disabled} />
         <Jumbotron objectTest={this.testingStateObject}/>
         <AddBar createBranch={this.createBranch} newBranchName={this.handleInputChange}/>
         <Container>
-          
-
+          <List>
+            {this.state.newBranches.length ? (
+              <ListItem>
+                {this.state.newBranches.map((branch, index) => (
+                  <Branch getBranchId={this.getBranchId} deleteBranch={this.deleteBranch} branch_id={this.state.newBranches[index].branch_id} branchName={this.state.newBranches[index].name} key={index} children={this.state.newBranches[index].children} min_range={this.state.newBranches[index].min_range} max_range={this.state.newBranches[index].max_range}>
+                    {/* now leaves just need to be made. */}
+                  </Branch>
+                ))}
+              </ListItem> 
+            ) : (
+              <h1>There are no branches made yet. Try making one.</h1>
+            )}
+          </List>
         </Container>
       </div>
     );
@@ -185,38 +178,3 @@ class App extends Component {
 }
 
 export default App;
-
-// {this.state.branches.length ? (
-//   <List>
-//     {this.state.branches.map(branch => (
-//       <ListItem>
-//       {/* instead of using this.state.branch_name, name them using array index */}
-//         <Branch branchName={this.state.branches}>
-//         {/* this is where leaf generation will go. */}
-//         </Branch>
-//       </ListItem>
-//     ))}
-//   </List>
-// ) : (
-//   <h3>No branches have been made yet. Try making one.</h3>
-// )}
-
-// const branchesArray = this.state.branches;
-// const branch_id = dbData[i].branch_id;
-// const branch_name = dbData[i].branch_name;
-// const min_range = dbData[i].min_range;
-// const max_range = dbData[i].max_range;
-// const leaf_name = dbData[i].children[i].leaf_name;
-// const leaf_id = dbData[i].children[i].leaf_id;
-// for (var i = 0; i < dbData.length; i++) {
-//   for (var x = 0; x < branchesArray.length; x++) {
-//     for (var z = 0; z < branchesArray.children.length; z++) {
-//       branchesArray.push(branch_id, branch_name, min_range, max_range);
-//       branchesArray[i].children.push(leaf_name, leaf_id)
-
-//     }
-//   }
-// }
-
-// branchArr.push([...branch_name, dbData[i].branch_name], [...branch_id, dbData[i].branch_id], [...min_range, dbData[i].min_range], [...max_range, dbData[i].max_range]);
-// childrenArr.push([...leaf_id, dbData[i].leaf_id], [...leaf_name, dbData[i].leaf_name]);

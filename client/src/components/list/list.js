@@ -4,7 +4,7 @@ import "./list.css";
 const List = ({ children }) => {
   return (
     <div className="list-overflow-container">
-      <ul className="list-group">
+      <ul id="branch-list" className="list-group">
         {children}
       </ul>
     </div>

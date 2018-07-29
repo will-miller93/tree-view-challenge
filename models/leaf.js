@@ -5,12 +5,12 @@ const orm = require('../config/orm');
 // you also need to get all of the leaves for branches so maybe you need a selectAll
 
 const Leaf = {
-    create: function(callback){
+    create: function(cols, vals, callback){
         orm.createLeaves('leaves', cols, vals, function(res){
             callback(res);
         });
     },
-    delete: function(callback){
+    delete: function(cols, vals, callback){
         orm.deleteLeaves('leaves', cols, vals, function(res){
             callback(res);
         });
