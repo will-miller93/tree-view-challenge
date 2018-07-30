@@ -2,9 +2,6 @@
 const connection = require('./connection');
 
 // helper function for escaping query values for createLeaves vals.
-// vals is an array. so I need to be able to dynamically insert a ? where the values would be to prevent injection
-// the problem is that it is not formatted correctly
-// when it iterates over number it is iterating over []
 function escapeValues(number) {
     // declare array to put ? in for each instance
     var arr = [];
@@ -19,7 +16,6 @@ function escapeValues(number) {
 
 
 // helper function for dynamically inserting and formatting cols in updateBranch query.
-// you need this because you are passing an object with multiple key: value pairs as cols with their values.
 // this is to help keep the format of UPDATE table SET col = 'val' WHERE condition = 'conditionVal'
 function formatObj(object) {
     var arr = [];
@@ -77,7 +73,6 @@ const orm = {
         });
 
     },
-    // delete by branch_id
     // DELETE FROM branches WHERE 'branch_id' = value of branch_id
     deleteBranch: function(table, cols, vals, callback) {
         var queryString = `DELETE FROM ${table} WHERE (${cols}) = ('${vals}') ;`;
@@ -102,7 +97,6 @@ const orm = {
                 callback(res);
         });
     },
-    // delete by branch_id 
     // DELETE FROM leaves WHERE 'branch_id' = value of branch_id
     deleteLeaves: function(table, cols, vals, callback) {
         var queryString = `DELETE FROM ${table} WHERE (${cols}) = ('${vals}');`;

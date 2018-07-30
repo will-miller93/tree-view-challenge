@@ -8,10 +8,3 @@ const EditButton = (props) => (
 );
 
 export default EditButton;
-
-// this is the editing button. it is used to start the edit of a branch.
-// this is inside the editing modal and users will need to click this to start
-// editing their branch.
-// this wont have any crud functionality but will simply make elements able to be 
-// edited/updated.
-

@@ -13,7 +13,3 @@ const SubmitButton = (props) => (
 );
 
 export default SubmitButton;
-
-// this will be the button in the "Create Bar" 
-// will be connected to the Create Functionality
-// used to make a new branch

@@ -1,8 +1,4 @@
 import React from 'react';
-// import Row from '../Grid/row';
-// import Col from '../Grid/col';
-// import Leaf from '../Leaf/leaf';
-// import List from '../list/list';
 import './branch.css';
 
 
@@ -15,9 +11,6 @@ const Branch = (props) => (
 );
 
 export default Branch;
-
-// this is the button that will be the element representing the Branch. 
-// this will be clickable and will open the editing modal.
 
 
 

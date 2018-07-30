@@ -6,7 +6,7 @@ import Row from './components/Grid/row';
 import Col from './components/Grid/col';
 import Jumbotron from './components/Jumbotron/jumbotron';
 import EditingModal from './components/editingModal/editingModal';
-import Leaf from './components/Leaf/leaf';
+// import Leaf from './components/Leaf/leaf';
 import List from './components/list/list.js';
 import ListItem from './components/listItem/listItem';
 import './App.css';
@@ -36,16 +36,11 @@ class App extends Component {
     const socket = socketIOClient('http://localhost:3306');
     // getAllBranches emit listener
     socket.on('getAllBranches', (results) => {
-      // results returns both the branchData and the leafData
-      console.log('getAllBranches was emitted and recieved!');
-      console.log(results);
       this.setState({
         newBranches: results.branchData,
         newLeaves: results.leafData
       });
-      
     });
-    
     // emit getAllBranches to get them on page load.
     socket.emit('getAllBranches');
   };
@@ -55,7 +50,6 @@ class App extends Component {
 
   createBranch = () => {
     const socket = socketIOClient('http://localhost:3306');
-    // declare variables for data that you are sending.
     var newBranchName = this.state.branch_name;
     console.log('create branch function called.');
     console.log(newBranchName);
@@ -132,7 +126,6 @@ class App extends Component {
 
   handleInputChange = (event) => {
     // this is input change for all of the modal inputs.
-    // const {name, value} = event.target;
     this.setState({
       [event.target.name] : event.target.value
     });

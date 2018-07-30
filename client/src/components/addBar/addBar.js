@@ -11,6 +11,3 @@ const AddBar = (props) => (
 );
 
 export default AddBar;
-
-// you will pass the create functionality down to the SubmitButton through props
-// the functionality will be in app.js thats where the functions will be passed from.

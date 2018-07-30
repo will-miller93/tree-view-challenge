@@ -49,10 +49,6 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 };
 
-// Route (just one get route for socket to work)
-// this will probably be a sendFile get route. it should send the single HTML page 
-// if there was a static HTML page but with React it may be different
-
 // set up the Socket.io connection
 io.on('connection', (socket) => {
     console.log('New user has connected..');
@@ -140,8 +136,3 @@ io.on('connection', (socket) => {
         console.log('User has disconnected..');
     });
 });
-
-// set up app listener
-// app.listen(PORT, () => {
-//     console.log(`app listening on port ${PORT}`);
-// });
