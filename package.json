@@ -4,7 +4,8 @@
   "description": "Full Stack Tree-Viewer Web Application.",
   "engines": {
     "node": "9.6.1",
-    "npm": "5.6.0"
+    "npm": "5.6.0",
+    "yarn": "1.6.0"
   },
   "main": "server.js",
   "scripts": {
