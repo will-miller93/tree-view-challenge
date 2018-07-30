@@ -2,6 +2,9 @@
   "name": "tree-view-challenge",
   "version": "1.0.0",
   "description": "Full Stack Tree-Viewer Web Application.",
+  "engines": {
+    "npm": "9.6.1"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
