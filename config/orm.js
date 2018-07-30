@@ -1,20 +1,26 @@
 // require the connection.js file here.
 const connection = require('./connection');
 
-// helper function for escaping query values
+// helper function for escaping query values for createLeaves vals.
+// vals is an array. so I need to be able to dynamically insert a ? where the values would be to prevent injection
+// the problem is that it is not formatted correctly
+// when it iterates over number it is iterating over []
 function escapeValues(number) {
     // declare array to put ? in for each instance
     var arr = [];
     // looping over number to decide how many ?
     for (var i = 0; i < number; i++) {
         // now push ? into array.
-        arr.push('?');
+        arr.push('(?)');
     }
     // return that array information and make it into a string.
     return arr.toString();
 };
 
-// helper function for dynamically inserting and formatting cols in query.
+
+// helper function for dynamically inserting and formatting cols in updateBranch query.
+// you need this because you are passing an object with multiple key: value pairs as cols with their values.
+// this is to help keep the format of UPDATE table SET col = 'val' WHERE condition = 'conditionVal'
 function formatObj(object) {
     var arr = [];
     for (keys in object) {
@@ -33,6 +39,7 @@ function formatObj(object) {
 };
 
 const orm = {
+    // SELECT * FROM branches(or leaves depending who is calling it). (* = all)
     selectAll: function(table, callback){
         var queryString = `SELECT * FROM ${table};`;
         connection.query(queryString, function(err, res){
@@ -44,6 +51,7 @@ const orm = {
             callback(res);
         });
     },
+    // INSERT INTO branches (name) VALUES ('nameValues')
     createBranch: function(table, cols, vals, callback) {
         var queryString = `INSERT INTO ${table} (${cols}) VALUES ('${vals}');`;
         connection.query(queryString, vals, function(err, res){
@@ -55,6 +63,7 @@ const orm = {
             callback(res);
         });
     },
+    // UPDATE branches SET (name = 'nameValue', children = 'childrenValue', min_range = 'min_rangeValue', max_range = 'max_rangeValue') WHERE 'branch_id' = value of branch_id
     updateBranch: function(table, colVals, condition, callback) {
         // may need to include a value for condition for branch_id = value
         var queryString = `UPDATE ${table} SET ${formatObj(colVals)} WHERE ${condition};`;
@@ -69,6 +78,7 @@ const orm = {
 
     },
     // delete by branch_id
+    // DELETE FROM branches WHERE 'branch_id' = value of branch_id
     deleteBranch: function(table, cols, vals, callback) {
         var queryString = `DELETE FROM ${table} WHERE (${cols}) = ('${vals}') ;`;
         connection.query(queryString, function(err, res) {
@@ -80,6 +90,7 @@ const orm = {
             callback(res);
         });
     },
+    // INSERT INTO leaves (branch_id, name) VALUES ("idvalue", "namevalue"), ("idvalue", "namevalue")...etc 
     createLeaves: function(table, cols, vals, callback) {
         var queryString = `INSERT INTO ${table} (${cols}) VALUES ${escapeValues(vals.length)};`;
         connection.query(queryString, vals, function(err, res) {
@@ -92,6 +103,7 @@ const orm = {
         });
     },
     // delete by branch_id 
+    // DELETE FROM leaves WHERE 'branch_id' = value of branch_id
     deleteLeaves: function(table, cols, vals, callback) {
         var queryString = `DELETE FROM ${table} WHERE (${cols}) = ('${vals}');`;
         connection.query(queryString, function(err, res) {

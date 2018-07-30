@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import AddBar from './components/addBar/addBar';
 import Branch from './components/Branch/branch';
 import Container from './components/Grid/container';
-// import Row from './components/Grid/row';
-// import Col from './components/Grid/col';
+import Row from './components/Grid/row';
+import Col from './components/Grid/col';
 import Jumbotron from './components/Jumbotron/jumbotron';
 import EditingModal from './components/editingModal/editingModal';
-// import Leaf from './components/Leaf/leaf';
+import Leaf from './components/Leaf/leaf';
 import List from './components/list/list.js';
 import ListItem from './components/listItem/listItem';
 import './App.css';
@@ -27,9 +27,7 @@ class App extends Component {
       children: '',
       disabled: true,
     };
-  
   }
-  
   // Emit Event Listeners //
   //======================//
 
@@ -45,11 +43,6 @@ class App extends Component {
         newBranches: results.branchData,
         newLeaves: results.leafData
       });
-      // variables for accessing state here.
-      let newBranches = this.state.newBranches;
-      let newLeaves = this.state.newLeaves;
-      console.log(newBranches);
-      console.log(newLeaves);
       
     });
     
@@ -151,25 +144,37 @@ class App extends Component {
   };
 
   render() {
-    return (
 
+    return (
+  
       <div className="app">
         <EditingModal  updateBranch={this.updateBranch} inputChange={this.handleInputChange} toggleInput={this.toggleModalInput} disabledValue={this.state.disabled} />
         <Jumbotron objectTest={this.testingStateObject}/>
         <AddBar createBranch={this.createBranch} newBranchName={this.handleInputChange}/>
         <Container>
           <List>
-            {this.state.newBranches.length ? (
-              <ListItem>
-                {this.state.newBranches.map((branch, index) => (
-                  <Branch getBranchId={this.getBranchId} deleteBranch={this.deleteBranch} branch_id={this.state.newBranches[index].branch_id} branchName={this.state.newBranches[index].name} key={index} children={this.state.newBranches[index].children} min_range={this.state.newBranches[index].min_range} max_range={this.state.newBranches[index].max_range}>
-                    {/* now leaves just need to be made. */}
-                  </Branch>
-                ))}
-              </ListItem> 
-            ) : (
-              <h1>There are no branches made yet. Try making one.</h1>
-            )}
+          {this.state.newBranches.length ? (
+            <ListItem>
+              {this.state.newBranches.map((branch, index) => (
+                <Row>
+                  <Col size="md-6">
+                    <Branch getBranchId={this.getBranchId} deleteBranch={this.deleteBranch} branch_id={this.state.newBranches[index].branch_id} branchName={this.state.newBranches[index].name} key={index} children={this.state.newBranches[index].children} min_range={this.state.newBranches[index].min_range} max_range={this.state.newBranches[index].max_range} />
+                    <List>
+                      {this.state.newLeaves.branch_id === this.state.newBranches.branch_id & this.state.newBranches[index].children !== null ? (
+                        <Row>
+                          <Col size="md-3">
+
+                          </Col>
+                        </Row>
+                      ):(console.log('please work.'))}
+                    </List>
+                  </Col>
+                </Row>
+              ))}
+            </ListItem>
+          ) : (
+            <h4>There are no branches made yet. Try making one.</h4>
+          )}
           </List>
         </Container>
       </div>
@@ -178,3 +183,6 @@ class App extends Component {
 }
 
 export default App;
+
+
+

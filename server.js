@@ -76,31 +76,13 @@ io.on('connection', (socket) => {
         Branch.create(["name"], [newBranchName], function(results){
             console.log('New Branch added to database');
             Branch.selectAll(function(branchData){
-                console.log('branches retrieved after branch create');
+                console.log('branches have been retrieved from database');
                 Leaf.selectAll(function(leafData){
-                    console.log('leaves retrieved after branch create');
+                    console.log('leaves have been retrieved from database');
                     io.sockets.emit('getAllBranches', {branchData, leafData});
-                })
-            })
+                });
+            });
         })      
-    });
-
-    socket.on('updateBranch', (newBranchName, newChildren, newMinRange, newMaxRange, branch_id) => {
-        console.log("updating branch");
-        console.log('branch_name: ' + newBranchName);
-        console.log('children: ' + newChildren);
-        console.log('min_range: ' + newMinRange);
-        console.log('max_range:' + newMaxRange);
-        console.log('branch_id:' + branch_id);
-        // use models here to access database. you will manipulate database in here
-        Branch.update({'name': `${newBranchName}`, 'children': `${newChildren}`, 'min_range': `${newMinRange}`, 'max_range': `${newMaxRange}`}, `branch_id = '${branch_id}'`, function(results){
-            console.log('branch updated');
-            Branch.selectAll(function(branchData){
-                Leaf.selectAll(function(leafData){
-                    io.sockets.emit('getAllBranches', {branchData, leafData});
-                })
-            })
-        })
     });
 
     socket.on('deleteBranch', (branch_id) => {
@@ -110,15 +92,48 @@ io.on('connection', (socket) => {
             console.log('branch deleted');
             Branch.delete(["branch_id"], [branch_id], function(results){
                 Branch.selectAll(function(branchData){
+                    console.log('branches have been retrieved from database');
                     Leaf.selectAll(function(leafData){
-                        console.log('the branch has been deleted from the database');
+                        console.log('leaves have been retrieved from database');
                         io.sockets.emit('getAllBranches', {branchData, leafData});
-                    })
-                })
+                    });
+                });
             })
         })
     });
 
+    socket.on('updateBranch', (newBranchName, newChildren, newMinRange, newMaxRange, branch_id) => {
+        // get both the value constraints for the random number generator.
+        const minRandNum = Math.ceil(newMinRange);
+        console.log(minRandNum);
+        const maxRandNum = Math.floor(newMaxRange);
+        console.log(maxRandNum);
+        // convert newChildren from a string into an integer
+        const childInt = parseInt(newChildren);
+        console.log(childInt);
+        // you will need to use an array for all of the leaf names that are created.
+        var leafDataArr = [];
+        // now make leaves for the amount equal to newChildren iterate over value
+        for (var i = 0; i < childInt; i++){
+            var randNum = Math.random() * (maxRandNum - minRandNum) + minRandNum;
+            leafDataArr.push([branch_id, randNum]);
+
+        }
+        console.log(leafDataArr);
+        Branch.update({'name': `${newBranchName}`, 'children': `${newChildren}`, 'min_range': `${newMinRange}`, 'max_range': `${newMaxRange}`}, `branch_id = '${branch_id}'`, function(results){
+            console.log('Branch updated in database');
+            Leaf.create(["branch_id", "name"], leafDataArr, function(results){
+                console.log('leaves created in database');
+                Branch.selectAll(function(branchData){
+                    console.log('branches have been retrieved from database');
+                    Leaf.selectAll(function(leafData){
+                        console.log('leaves have been retrieved from database');
+                        io.sockets.emit('getAllBranches', {branchData, leafData});
+                    });
+                });
+            })
+        })
+    });
 
     // socket.on disconnect event handler
     socket.on('disconnect', () => {
