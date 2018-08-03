@@ -34,7 +34,7 @@ class App extends Component {
 
   componentDidMount() {
     // Socket.io connection for recieving emit events go here.
-    const socket = socketIOClient('http://localhost:3306');
+    const socket = socketIOClient('https://calm-brushlands-97195.herokuapp.com/');
     // getAllBranches emit listener
     socket.on('getAllBranches', (results) => {
       this.setState({
@@ -50,7 +50,7 @@ class App extends Component {
   //======================//
 
   createBranch = () => {
-    const socket = socketIOClient('http://localhost:3306');
+    const socket = socketIOClient('https://calm-brushlands-97195.herokuapp.com/');
     var newBranchName = this.state.branch_name;
     console.log('create branch function called.');
     console.log(newBranchName);
