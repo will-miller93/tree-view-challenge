@@ -1,10 +1,8 @@
 import React from 'react';
 import './leaf.css';
 
-const Leaf = () => (
-
-    <button type="button" className="btn btn-info leafBtn" disabled> leaf test </button>
-
+const Leaf = (props) => (
+    <button id={props.id} name={props.name} type="button" className="btn btn-info leafBtn" disabled>{props.name}</button>
 );
 
 export default Leaf;

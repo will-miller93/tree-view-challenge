@@ -99,34 +99,36 @@ io.on('connection', (socket) => {
     });
 
     socket.on('updateBranch', (newBranchName, newChildren, newMinRange, newMaxRange, branch_id) => {
-        // get both the value constraints for the random number generator.
-        const minRandNum = Math.ceil(newMinRange);
-        console.log(minRandNum);
-        const maxRandNum = Math.floor(newMaxRange);
-        console.log(maxRandNum);
-        // convert newChildren from a string into an integer
-        const childInt = parseInt(newChildren);
-        console.log(childInt);
-        // you will need to use an array for all of the leaf names that are created.
-        var leafDataArr = [];
-        // now make leaves for the amount equal to newChildren iterate over value
-        for (var i = 0; i < childInt; i++){
-            var randNum = Math.random() * (maxRandNum - minRandNum) + minRandNum;
-            leafDataArr.push([branch_id, randNum]);
+        Leaf.delete(["branch_id"], [branch_id], function(results){
+            // get both the value constraints for the random number generator.
+            const minRandNum = Math.ceil(newMinRange);
+            console.log(minRandNum);
+            const maxRandNum = Math.floor(newMaxRange);
+            console.log(maxRandNum);
+            // convert newChildren from a string into an integer
+            const childInt = parseInt(newChildren);
+            console.log(childInt);
+            // you will need to use an array for all of the leaf names that are created.
+            var leafDataArr = [];
+            // now make leaves for the amount equal to newChildren iterate over value
+            for (var i = 0; i < childInt; i++){
+                var randNum = Math.random() * (maxRandNum - minRandNum) + minRandNum;
+                leafDataArr.push([branch_id, randNum]);
 
-        }
-        console.log(leafDataArr);
-        Branch.update({'name': `${newBranchName}`, 'children': `${newChildren}`, 'min_range': `${newMinRange}`, 'max_range': `${newMaxRange}`}, `branch_id = '${branch_id}'`, function(results){
-            console.log('Branch updated in database');
-            Leaf.create(["branch_id", "name"], leafDataArr, function(results){
-                console.log('leaves created in database');
-                Branch.selectAll(function(branchData){
-                    console.log('branches have been retrieved from database');
-                    Leaf.selectAll(function(leafData){
-                        console.log('leaves have been retrieved from database');
-                        io.sockets.emit('getAllBranches', {branchData, leafData});
+            }
+            console.log(leafDataArr);
+            Branch.update({'name': `${newBranchName}`, 'children': `${newChildren}`, 'min_range': `${newMinRange}`, 'max_range': `${newMaxRange}`}, `branch_id = '${branch_id}'`, function(results){
+                console.log('Branch updated in database');
+                Leaf.create(["branch_id", "name"], leafDataArr, function(results){
+                    console.log('leaves created in database');
+                    Branch.selectAll(function(branchData){
+                        console.log('branches have been retrieved from database');
+                        Leaf.selectAll(function(leafData){
+                            console.log('leaves have been retrieved from database');
+                            io.sockets.emit('getAllBranches', {branchData, leafData});
+                        });
                     });
-                });
+                })
             })
         })
     });
@@ -136,3 +138,5 @@ io.on('connection', (socket) => {
         console.log('User has disconnected..');
     });
 });
+
+

@@ -6,7 +6,7 @@ import Row from './components/Grid/row';
 import Col from './components/Grid/col';
 import Jumbotron from './components/Jumbotron/jumbotron';
 import EditingModal from './components/editingModal/editingModal';
-// import Leaf from './components/Leaf/leaf';
+import Leaf from './components/Leaf/leaf';
 import List from './components/list/list.js';
 import ListItem from './components/listItem/listItem';
 import './App.css';
@@ -26,6 +26,7 @@ class App extends Component {
       max_range: '',
       children: '',
       disabled: true,
+      saveButtonDisabled: false
     };
   }
   // Emit Event Listeners //
@@ -43,6 +44,7 @@ class App extends Component {
     });
     // emit getAllBranches to get them on page load.
     socket.emit('getAllBranches');
+    // console.logging data to be able to read how it is coming back.
   };
 
   // Emit Event Functions //
@@ -55,7 +57,9 @@ class App extends Component {
     console.log(newBranchName);
     // now emit the information to create a branch.
     socket.emit('createBranch', (newBranchName));
-
+    // now clear input field...
+    // this is the easiest way without adding a ton to state and then setting state even more.
+    document.getElementById('createBranchName').value='';
   };
 
   updateBranch = (event) => {
@@ -66,16 +70,12 @@ class App extends Component {
     var newMinRange = this.state.min_range;
     var newMaxRange = this.state.max_range;
     var branch_id = this.state.branch_id;
-    console.log(newBranchName);
-    console.log(newChildren);
-    console.log(newMinRange);
-    console.log(newMaxRange);
-    console.log(branch_id);
-  
-
+    
     // now emit the data to the server.
     socket.emit('updateBranch', newBranchName, newChildren, newMinRange, newMaxRange, branch_id);
 
+    // call the toggleInputs function after the emit...
+    this.disableModalInputs();
   };
 
   deleteBranch = (event) => {
@@ -94,7 +94,7 @@ class App extends Component {
     var max_range = this.state.max_range;
     var children = this.state.children;
 
-    socket.emit('createLeaves', branch_id, min_range, max_range, children); 
+    socket.emit('createLeaves', branch_id, min_range, max_range, children);
   };
 
   // Helper Functions //
@@ -130,20 +130,81 @@ class App extends Component {
       [event.target.name] : event.target.value
     });
     // console.log(this.state.branch_id);
-    console.log(this.state.branch_name);
-    console.log(this.state.children);
-    console.log(this.state.min_range);
-    console.log(this.state.max_range);
+    // console.log(this.state.branch_name);
+    // console.log(this.state.children);
+    // console.log(this.state.min_range);
+    // console.log(this.state.max_range);
+
+  };
+
+  handleSave = (event) => {
+    if (this.state.branch_name.length > 75){
+      console.log('this name is too long.');
+      // disable save button
+      this.setState({
+        saveButtonDisabled: true
+      });
+    } else if (this.state.children.value > 15){
+      console.log('you can have a max of 15 children');
+      // disable save button
+      this.setState({
+        saveButtonDisabled: true
+      });
+    } else if (this.state.min_range > this.state.max_range){
+      console.log('Min_Range must be less than Max_range.');
+      // disable save button
+      this.setState({
+        saveButtonDisabled: true
+      });
+    } else {
+      this.updateBranch();
+      this.clearInputs();
+    };
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('its getting here');
+    if (this.state.branch_name.length > 75){
+      console.log('Branch Name cannot exceed 75 characters.');
+    } else {
+      this.createBranch();
+    }
+  };
+
+  setInitialState = () => {
+    // you will call this function on submit button click and savebutton click.
+    this.setState({
+      branch_name: '',
+      children: '',
+      min_range: '',
+      max_range: ''
+    });
+  };
+
+  disableModalInputs = () => {
+    if (this.state.disabled === true) {
+      console.log('disabled state already true');
+
+    } else if (this.state.disabled === false) {
+       this.setState({
+         disabled: true
+       });
+    };
+  };
+
+  clearInputs = () => {
+    document.getElementById('save-form').reset();
+
   };
 
   render() {
-
     return (
   
       <div className="app">
-        <EditingModal  updateBranch={this.updateBranch} inputChange={this.handleInputChange} toggleInput={this.toggleModalInput} disabledValue={this.state.disabled} />
+        <EditingModal validateSave={this.handleSave}  inputChange={this.handleInputChange} toggleInput={this.toggleModalInput} disableInputs={this.disableModalInputs} disabledValue={this.state.disabled} />
         <Jumbotron objectTest={this.testingStateObject}/>
-        <AddBar createBranch={this.createBranch} newBranchName={this.handleInputChange}/>
+        <AddBar validateSubmit={this.handleSubmit} newBranchName={this.handleInputChange}/>
         <Container>
           <List>
           {this.state.newBranches.length ? (
@@ -156,7 +217,14 @@ class App extends Component {
                       {this.state.newLeaves.branch_id === this.state.newBranches.branch_id & this.state.newBranches[index].children !== null ? (
                         <Row>
                           <Col size="md-3">
-
+                            {this.state.newLeaves.filter(matchObj => {
+                              return matchObj.branch_id === this.state.newBranches[index].branch_id;
+                            }).map((matchObj, index) => (
+                              <ListItem>
+                                <Leaf name={matchObj.name} key={matchObj.leaf_id} id={matchObj.branch_id}/>
+                              </ListItem>
+                            ))}
+                            <ListItem />
                           </Col>
                         </Row>
                       ):(console.log('please work.'))}
@@ -177,5 +245,5 @@ class App extends Component {
 
 export default App;
 
-
-
+// now styling and fix heroku deployment
+ 
