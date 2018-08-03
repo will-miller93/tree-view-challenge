@@ -1,7 +1,7 @@
 import React from 'react';
 import EditButton from '../editButton/editButton';
 import SaveButton from '../saveButton/saveButton';
-import './editingModal.css';
+// import './editingModal.css';
 
 const EditingModal = (props) => (
     <div>
@@ -17,17 +17,21 @@ const EditingModal = (props) => (
                     <div className="modal-body">
                         <form id="save-form">
                             {/* here is where the Name of the branch will be displayed or where it can be edited */}
-                            <div className="form-group">
+                            <div className="form-row" id="editingInputs">
                                 <label htmlFor="branchName"> Branch Name : </label>
-                                <input type="text" onChange={props.inputChange} name="branch_name" className="form-control" id="branchName" placeholder="Enter branch name here" disabled={props.disabledValue} />
+                                <div className="col">   
+                                    <input type="text" onChange={props.inputChange} name="branch_name" className="form-control" id="branchName" placeholder="Enter branch name here" disabled={props.disabledValue} />
+                                </div>
                             </div>
                             {/* here is where the number of children is decided */}
-                            <div className="form-group">
-                                <label htmlFor="numChildren"> Children : </label>                      
-                                <input type="text" onChange={props.inputChange} name="children" className="form-control" id="branchChildren" placeholder="You can have up to 15 Children" disabled={props.disabledValue} />
+                            <div className="form-row" id="editingInputs">
+                                <label htmlFor="numChildren"> Children : </label>
+                                <div className="col">                     
+                                    <input type="text" onChange={props.inputChange} name="children" className="form-control" id="branchChildren" placeholder="You can have up to 15 Children" disabled={props.disabledValue} />
+                                </div>
                             </div>
                             {/* here is where the Range min and max is decided */}
-                            <div className="form-row">
+                            <div className="form-row" id="editingInputs">
                                 <label htmlFor="range"> Range : </label>
                                 <div className="col">
                                     <input type="text" onChange={props.inputChange} name="min_range" className="form-control" id="minRange" placeholder="Min Range" disabled={props.disabledValue} />

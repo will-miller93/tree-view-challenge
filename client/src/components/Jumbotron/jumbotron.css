@@ -1,16 +1,21 @@
 .jumbotron {
-    color: gray;
+    background-image: url('../../images/forest.jpg');
     margin-bottom: 0%;
+    height: 300px;
 }
 
 
 h1 {
+    font-weight: 900;
     text-align: center;
-    color: black;
+    color: white;
+    
 }
 
 
 p {
+    font-weight: 700;
     text-align: center;
-    color: black;
+    color: white;
+
 }

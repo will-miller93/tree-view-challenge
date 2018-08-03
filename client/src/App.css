@@ -1,3 +1,34 @@
+.app {
+    background: whitesmoke;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: normal;
+}
+
+#editingInputs {
+    padding: 10px;
+}
+
+.container {
+    background-color: whitesmoke;
+}
+
+.row {
+    background-color: whitesmoke;
+}
+
+.col {
+    background-color: whitesmoke;
+}
+
+.list-group-item {
+    background-color: whitesmoke;
+}
+
+.list-overflow-container {
+    background: whitesmoke;
+}
+
 li {
     list-style: none;
 }
+

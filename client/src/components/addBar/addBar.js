@@ -4,7 +4,7 @@ import './addBar.css';
 
 const AddBar = (props) => (
     <div>
-        <nav className="navbar bg-dark">
+        <nav className="navbar">
             <SubmitButton handleSubmit={props.validateSubmit} newBranchName={props.newBranchName}/>
         </nav>
     </div>

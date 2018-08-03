@@ -1,5 +1,8 @@
 /* leaf element */
 .leafBtn {
-    margin: 7px;
-    margin-left: 50px;
+    color: white;
+    background-color: darkgreen;
+    margin: 4px;
+    margin-left: 130px;
+    opacity: 1;
 }

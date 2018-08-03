@@ -6,5 +6,6 @@
 
 /* button */
 .addBranchBtn {
+    background-color: green;
     color: white;
 }
