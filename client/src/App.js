@@ -204,12 +204,12 @@ class App extends Component {
             <ListItem>
               {this.state.newBranches.map((branch, index) => (
                 <Row>
-                  <Col size="md-6">
+                  <Col size="md-12">
                     <Branch getBranchId={this.getBranchId} deleteBranch={this.deleteBranch} branch_id={this.state.newBranches[index].branch_id} branchName={this.state.newBranches[index].name} key={index} children={this.state.newBranches[index].children} min_range={this.state.newBranches[index].min_range} max_range={this.state.newBranches[index].max_range} />
                     <List>
                       {this.state.newLeaves.branch_id === this.state.newBranches.branch_id & this.state.newBranches[index].children !== null ? (
                         <Row>
-                          <Col size="md-3">
+                          <Col size="md-6">
                             {this.state.newLeaves.filter(matchObj => {
                               return matchObj.branch_id === this.state.newBranches[index].branch_id;
                             }).map((matchObj, index) => (
