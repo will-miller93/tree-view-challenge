@@ -34,7 +34,7 @@ class App extends Component {
 
   componentDidMount() {
     // Socket.io connection for recieving emit events go here.
-    const socket = socketIOClient("/");
+    const socket = socketIOClient('http://localhost:3306');
     // getAllBranches emit listener
     socket.on('getAllBranches', (results) => {
       this.setState({
@@ -50,7 +50,7 @@ class App extends Component {
   //======================//
 
   createBranch = () => {
-    const socket = socketIOClient();
+    const socket = socketIOClient('http://localhost:3306');
     var newBranchName = this.state.branch_name;
     console.log('create branch function called.');
     console.log(newBranchName);
