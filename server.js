@@ -14,8 +14,8 @@ const Leaf = require('./models/leaf');
 // other constants needed
 const PORT = process.env.PORT || 3306;
 const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server); // this is the inital socket.io set up
+const server = require('http').createServer(app);
+const io = require('socket.io').listen(server); // this is the inital socket.io set up
 server.listen(PORT);
 
 app.use(cors({origin: 'http:localhost:3306'}));
