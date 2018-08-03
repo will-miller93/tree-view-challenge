@@ -61,7 +61,7 @@ class App extends Component {
   };
 
   updateBranch = (event) => {
-    const socket = socketIOClient('http://localhost:3306');
+    const socket = socketIOClient('https://calm-brushlands-97195.herokuapp.com/');
     // declare variables for each bit of data you need to send for update
     var newBranchName = this.state.branch_name;
     var newChildren = this.state.children;
@@ -77,7 +77,7 @@ class App extends Component {
   };
 
   deleteBranch = (event) => {
-    const socket = socketIOClient('http://localhost:3306');
+    const socket = socketIOClient('https://calm-brushlands-97195.herokuapp.com/');
     // console.log(event.target.getAttribute('id'));
     var branch_id = event.target.getAttribute('id'); // this needs to grab the id of the deletebutton
     // now emit the data needed to the server. 
@@ -86,7 +86,7 @@ class App extends Component {
   };
 
   createLeaves = () => {
-    const socket = socketIOClient('http://localhost:3306');
+    const socket = socketIOClient('https://calm-brushlands-97195.herokuapp.com/');
     var branch_id = this.state.branch_id;
     var min_range = this.state.min_range;
     var max_range = this.state.max_range;
