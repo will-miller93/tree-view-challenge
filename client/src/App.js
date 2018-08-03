@@ -34,7 +34,7 @@ class App extends Component {
 
   componentDidMount() {
     // Socket.io connection for recieving emit events go here.
-    const socket = socketIOClient();
+    const socket = socketIOClient("/");
     // getAllBranches emit listener
     socket.on('getAllBranches', (results) => {
       this.setState({
