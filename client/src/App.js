@@ -44,7 +44,6 @@ class App extends Component {
     });
     // emit getAllBranches to get them on page load.
     socket.emit('getAllBranches');
-    // console.logging data to be able to read how it is coming back.
   };
 
   // Emit Event Functions //
@@ -58,7 +57,6 @@ class App extends Component {
     // now emit the information to create a branch.
     socket.emit('createBranch', (newBranchName));
     // now clear input field...
-    // this is the easiest way without adding a ton to state and then setting state even more.
     document.getElementById('createBranchName').value='';
   };
 
@@ -129,11 +127,6 @@ class App extends Component {
     this.setState({
       [event.target.name] : event.target.value
     });
-    // console.log(this.state.branch_id);
-    // console.log(this.state.branch_name);
-    // console.log(this.state.children);
-    // console.log(this.state.min_range);
-    // console.log(this.state.max_range);
 
   };
 
@@ -245,5 +238,4 @@ class App extends Component {
 
 export default App;
 
-// now styling and fix heroku deployment
  
